@@ -1,4 +1,4 @@
-package com.mendel.service_transaction.infraestructure.adapter;
+package com.mendel.service_transaction.infraestructure.entrypoint.adapter;
 
 import org.springframework.stereotype.Repository;
 

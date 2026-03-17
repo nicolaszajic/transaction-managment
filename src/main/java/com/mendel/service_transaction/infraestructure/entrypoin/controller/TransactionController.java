@@ -1,4 +1,4 @@
-package com.mendel.service_transaction.infraestructure.controller;
+package com.mendel.service_transaction.infraestructure.entrypoin.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,7 +7,7 @@ import org.springframework.web.server.ServerWebExchange;
 import com.mendel.service_transaction.application.usecase.CreateTransactionUseCase;
 import com.mendel.service_transaction.application.usecase.GetTransactionsByTypeUseCase;
 import com.mendel.service_transaction.application.usecase.GetTransactionsSumUseCase;
-import com.mendel.service_transaction.infraestructure.mapper.TransactionApiMapper;
+import com.mendel.service_transaction.infraestructure.entrypoint.mapper.TransactionApiMapper;
 import com.mendel.service_transaction.infrastructure.entrypoint.controller.api.TransactionsApi;
 import com.mendel.service_transaction.infrastructure.entrypoint.controller.model.CreateTransactionRequest;
 import com.mendel.service_transaction.infrastructure.entrypoint.controller.model.StatusResponse;

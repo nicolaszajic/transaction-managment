@@ -1,4 +1,4 @@
-package com.mendel.service_transaction.infraestructure.mapper;
+package com.mendel.service_transaction.infraestructure.entrypoint.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
