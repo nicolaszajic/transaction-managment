@@ -1,7 +1,8 @@
-package com.mendel.service_transaction.application.adapter;
+package com.mendel.service_transaction.infraestructure.adapter;
 
 import org.springframework.stereotype.Repository;
 
+import com.mendel.service_transaction.application.port.TransactionRepository;
 import com.mendel.service_transaction.domain.model.Transaction;
 
 import java.util.List;

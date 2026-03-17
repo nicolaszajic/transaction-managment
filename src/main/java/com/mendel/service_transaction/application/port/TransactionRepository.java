@@ -1,4 +1,4 @@
-package com.mendel.service_transaction.application.adapter;
+package com.mendel.service_transaction.application.port;
 
 import java.util.List;
 import java.util.Optional;

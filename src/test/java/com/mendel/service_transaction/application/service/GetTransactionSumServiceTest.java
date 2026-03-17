@@ -1,8 +1,8 @@
 package com.mendel.service_transaction.application.service;
 import org.junit.jupiter.api.Test;
 
-import com.mendel.service_transaction.application.adapter.TransactionRepository;
 import com.mendel.service_transaction.application.model.CreateTransactionCommand;
+import com.mendel.service_transaction.application.port.TransactionRepository;
 import com.mendel.service_transaction.domain.model.Transaction;
 import com.mendel.service_transaction.domain.model.exception.ParentTransactionNotFoundException;
 import com.mendel.service_transaction.domain.model.exception.TransactionAlreadyExistsException;
