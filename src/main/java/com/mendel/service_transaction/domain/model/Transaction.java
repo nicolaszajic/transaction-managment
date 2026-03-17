@@ -9,6 +9,9 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public record Transaction(Long id, BigDecimal amount, String type, Long parentId) {
-
+public class Transaction {
+	private final Long id; 
+	private final BigDecimal amount;
+	private final String type;
+	private final Long parentId;
 }

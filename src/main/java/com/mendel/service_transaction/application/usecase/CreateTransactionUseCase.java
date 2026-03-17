@@ -1,7 +1,7 @@
 package com.mendel.service_transaction.application.usecase;
 
-import java.math.BigDecimal;
+import com.mendel.service_transaction.application.model.CreateTransactionCommand;
 
 public interface CreateTransactionUseCase {
-	void createTransaction(Long id, BigDecimal amount, String type, Long parentId);
+	void createTransaction(CreateTransactionCommand command);
 }
