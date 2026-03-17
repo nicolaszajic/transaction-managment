@@ -1,16 +1,19 @@
 package com.mendel.service_transaction.application.service;
 
-import com.mendel.service_transaction.domain.model.Transaction;
-import com.mendel.service_transaction.application.model.CreateTransactionCommand;
-import com.mendel.service_transaction.application.repository.TransactionRepository;
-import com.mendel.service_transaction.application.usecase.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.mendel.service_transaction.application.model.CreateTransactionCommand;
+import com.mendel.service_transaction.application.repository.TransactionRepository;
+import com.mendel.service_transaction.domain.model.Transaction;
 
 public class CreateTransactionServiceTest {
 	  @Test
@@ -31,7 +34,7 @@ public class CreateTransactionServiceTest {
 
 	        assertTrue(savedTransaction.isPresent());
 	        assertEquals(1L, savedTransaction.get().getId());
-	        assertEquals(100.0, savedTransaction.get().getAmount());
+	        assertEquals(new BigDecimal(100.0), savedTransaction.get().getAmount());
 	        assertEquals("cars", savedTransaction.get().getType());
 	        assertNull(savedTransaction.get().getParentId());
 	    }
@@ -65,4 +68,4 @@ public class CreateTransactionServiceTest {
 	        }
 	    }
 	}
-}
+
