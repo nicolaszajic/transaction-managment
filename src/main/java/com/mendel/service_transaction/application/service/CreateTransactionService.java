@@ -2,6 +2,8 @@ package com.mendel.service_transaction.application.service;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Service;
+
 import com.mendel.service_transaction.application.model.CreateTransactionCommand;
 import com.mendel.service_transaction.application.port.TransactionRepository;
 import com.mendel.service_transaction.application.usecase.CreateTransactionUseCase;
@@ -11,6 +13,7 @@ import com.mendel.service_transaction.domain.model.exception.TransactionAlreadyE
 
 import lombok.RequiredArgsConstructor;
 
+@Service
 @RequiredArgsConstructor
 public class CreateTransactionService implements CreateTransactionUseCase {
 
@@ -21,17 +24,17 @@ public class CreateTransactionService implements CreateTransactionUseCase {
 		if (transactionRepository.findById(command.id()).isPresent()) {
 			throw new TransactionAlreadyExistsException(command.id());
 		}
-		
-		if(command.parentId() != null && transactionRepository.findById(command.parentId()).isEmpty()) {
+
+		if (command.parentId() != null && transactionRepository.findById(command.parentId()).isEmpty()) {
 			throw new ParentTransactionNotFoundException(command.parentId());
 		}
-		
+
 		Transaction transaction = Transaction.builder()
-												.id(command.id())
-												.amount(new BigDecimal(command.amount()))
-												.type(command.type())
-												.parentId(command.parentId())
-											.build();
+										.id(command.id())
+										.amount(new BigDecimal(command.amount()))
+										.type(command.type())
+										.parentId(command.parentId())
+									.build();
 
 		transactionRepository.save(transaction);
 	}

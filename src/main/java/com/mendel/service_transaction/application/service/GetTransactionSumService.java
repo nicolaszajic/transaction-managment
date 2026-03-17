@@ -5,11 +5,14 @@ import lombok.RequiredArgsConstructor;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.mendel.service_transaction.application.port.TransactionRepository;
 import com.mendel.service_transaction.application.usecase.GetTransactionsSumUseCase;
 import com.mendel.service_transaction.domain.model.Transaction;
 import com.mendel.service_transaction.domain.model.exception.TransactionNotFoundException;
 
+@Service
 @RequiredArgsConstructor
 public class GetTransactionSumService implements GetTransactionsSumUseCase {
 
