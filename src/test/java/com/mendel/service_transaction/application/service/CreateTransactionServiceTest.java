@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import com.mendel.service_transaction.application.model.CreateTransactionCommand;
 import com.mendel.service_transaction.application.repository.TransactionRepository;
 import com.mendel.service_transaction.domain.model.Transaction;
+import com.mendel.service_transaction.domain.model.exception.ParentTransactionNotFoundException;
 import com.mendel.service_transaction.domain.model.exception.TransactionAlreadyExistsException;
 
 public class CreateTransactionServiceTest {
@@ -61,6 +62,48 @@ public class CreateTransactionServiceTest {
 		              () -> service.createTransaction(command)
 		      );
 		  }
+		
+		@Test
+		  void shouldThrowExceptionWhenTransactionDoesNotExist() {
+		      TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+		      CreateTransactionService service = new CreateTransactionService(repository);
+	
+		      repository.save(new Transaction(1L, new BigDecimal(100.0), "cars", null));
+	
+		      CreateTransactionCommand command = new CreateTransactionCommand(
+		              2L,
+		              200.0,
+		              "clother",
+		              999L
+		      );
+	
+		      assertThrows(
+		    		  ParentTransactionNotFoundException.class,
+		              () -> service.createTransaction(command)
+		      );
+		  }
+		
+		@Test
+		void shouldCreateTransactionWhenParentExists() {
+		    TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+		    CreateTransactionService service = new CreateTransactionService(repository);
+
+		    repository.save(new Transaction(1L, new BigDecimal(100.0), "cars", null));
+
+		    CreateTransactionCommand command = new CreateTransactionCommand(
+		            2L,
+		            200.0,
+		            "shopping",
+		            1L
+		    );
+
+		    service.createTransaction(command);
+
+		    Optional<Transaction> savedTransaction = repository.findById(2L);
+
+		    assertTrue(savedTransaction.isPresent());
+		    assertEquals(1L, savedTransaction.get().getParentId());
+		}
 
 	    private static class InMemoryTransactionRepositoryFake implements TransactionRepository {
 
