@@ -1,0 +1,203 @@
+openapi: 3.0.3
+info:
+  title: Transaction Managment API
+  description: REST API to manage transactions
+  version: 1.0.0
+
+tags:
+  - name: Transactions
+    description: Operations on transactions
+
+paths:
+  /transactions/{transaction_id}:
+    put:
+      tags:
+        - Transactions
+      summary: Create a transaction
+      description: >
+        Create a new transaction with an explicit id.
+        The challenge defines amount, type and optional parent_id.
+      operationId: createTransaction
+      parameters:
+        - $ref: '#/components/parameters/TransactionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+            examples:
+              withoutParent:
+                summary: Transaction without parent
+                value:
+                  amount: 5000
+                  type: cars
+              withParent:
+                summary: Transaction with parent
+                value:
+                  amount: 10000
+                  type: shopping
+                  parent_id: 10
+      responses:
+        '200':
+          description: Transaction created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+              example:
+                status: ok
+        '400':
+          description: Invalid request or nonexistent parent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidRequest:
+                  value:
+                    message: "type must not be null or blank"
+                parentNotFound:
+                  value:
+                    message: "Parent transaction not found with this id"
+        '409':
+          description: A transaction with that id already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Transaction already exists with this id"
+
+  /transactions/types/{type}:
+    get:
+      tags:
+        - Transactions
+      summary: Get transaction ids by type
+      description: Returns a JSON list of ids for the specified type.
+      operationId: getTransactionsByType
+      parameters:
+        - $ref: '#/components/parameters/TransactionType'
+      responses:
+        '200':
+          description: List of ids for the indicated type
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+              examples:
+                singleResult:
+                  value: [10]
+                multipleResults:
+                  value: [11, 12, 15]
+                emptyResult:
+                  value: []
+
+  /transactions/sum/{transaction_id}:
+    get:
+      tags:
+        - Transactions
+      summary: Get transitive sum of a transaction
+      description: >
+        Returns the sum of all transitively connected transactions
+        by parent_id to the queried transaction_id.
+      operationId: getTransactionSum
+      parameters:
+        - $ref: '#/components/parameters/TransactionId'
+      responses:
+        '200':
+          description: Correctly calculated sum
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SumResponse'
+              examples:
+                sum10:
+                  value:
+                    sum: 20000
+                sum11:
+                  value:
+                    sum: 15000
+        '404':
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Transaction not found with this id"
+
+components:
+  parameters:
+    TransactionId:
+      name: transaction_id
+      in: path
+      required: true
+      description: Unique transaction identifier
+      schema:
+        type: integer
+        format: int64
+        example: 10
+
+    TransactionType:
+      name: type
+      in: path
+      required: true
+      description: Transaction type
+      schema:
+        type: string
+        example: cars
+
+  schemas:
+    CreateTransactionRequest:
+      type: object
+      required:
+        - amount
+        - type
+      properties:
+        amount:
+          type: number
+          format: double
+          description: Transaction amount
+          example: 5000
+        type:
+          type: string
+          description: Transaction type
+          example: cars
+        parent_id:
+          type: integer
+          format: int64
+          nullable: true
+          description: Parent transaction ID
+          example: 10
+
+    StatusResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: ok
+
+    SumResponse:
+      type: object
+      required:
+        - sum
+      properties:
+        sum:
+          type: number
+          format: double
+          example: 20000
+
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: "Transaction not found with this id"
