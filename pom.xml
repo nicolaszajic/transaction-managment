@@ -111,10 +111,10 @@
 								${project.build.directory}/build
 							</output>
 							<apiPackage>
-								com.mendel.challenge.infrastructure.entrypoint.controller.api
+								com.mendel.service_transaction.infrastructure.entrypoint.controller.api
 							</apiPackage>
 							<modelPackage>
-								com.mendel.challenge.infrastructure.entrypoint.controller.model
+								com.mendel.service_transaction.infrastructure.entrypoint.controller.model
 							</modelPackage>
 							<configOptions>
 							    <interfaceOnly>true</interfaceOnly>

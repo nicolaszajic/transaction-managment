@@ -1,6 +1,6 @@
 package com.mendel.service_transaction.application.service;
 
-import com.mendel.service_transaction.application.repository.TransactionRepository;
+import com.mendel.service_transaction.application.adapter.TransactionRepository;
 import com.mendel.service_transaction.application.usecase.GetTransactionsByTypeUseCase;
 import lombok.RequiredArgsConstructor;
 

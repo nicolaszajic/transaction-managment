@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.mendel.service_transaction.application.adapter.TransactionRepository;
 import com.mendel.service_transaction.application.usecase.GetTransactionsSumUseCase;
-import com.mendel.service_transaction.application.repository.TransactionRepository;
 import com.mendel.service_transaction.domain.model.Transaction;
 import com.mendel.service_transaction.domain.model.exception.TransactionNotFoundException;
 
@@ -16,8 +17,9 @@ public class GetTransactionSumService implements GetTransactionsSumUseCase {
 
 	@Override
 	public BigDecimal getSum(Long transactionId) {
-		Transaction rootTransaction = transactionRepository.findById(transactionId)
-				.orElseThrow(() -> new TransactionNotFoundException(transactionId));
+		Transaction rootTransaction = transactionRepository
+										.findById(transactionId)
+										.orElseThrow(() -> new TransactionNotFoundException(transactionId));
 
 		return sumTransactionTree(rootTransaction, transactionRepository.findAll());
 	}

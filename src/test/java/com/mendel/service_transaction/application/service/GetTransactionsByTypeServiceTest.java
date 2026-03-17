@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import com.mendel.service_transaction.application.repository.TransactionRepository;
+import com.mendel.service_transaction.application.adapter.TransactionRepository;
 import com.mendel.service_transaction.domain.model.Transaction;
 
 class GetTransactionsByTypeServiceTest {

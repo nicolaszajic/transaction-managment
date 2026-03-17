@@ -2,8 +2,8 @@ package com.mendel.service_transaction.application.service;
 
 import java.math.BigDecimal;
 
+import com.mendel.service_transaction.application.adapter.TransactionRepository;
 import com.mendel.service_transaction.application.model.CreateTransactionCommand;
-import com.mendel.service_transaction.application.repository.TransactionRepository;
 import com.mendel.service_transaction.application.usecase.CreateTransactionUseCase;
 import com.mendel.service_transaction.domain.model.Transaction;
 import com.mendel.service_transaction.domain.model.exception.ParentTransactionNotFoundException;
