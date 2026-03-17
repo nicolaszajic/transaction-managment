@@ -1,0 +1,68 @@
+package com.mendel.service_transaction.application.service;
+
+import com.mendel.service_transaction.domain.model.Transaction;
+import com.mendel.service_transaction.application.model.CreateTransactionCommand;
+import com.mendel.service_transaction.application.repository.TransactionRepository;
+import com.mendel.service_transaction.application.usecase.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CreateTransactionServiceTest {
+	  @Test
+	    void shouldCreateTransactionSuccessfullyWhenParentIdIsNull() {
+	        TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+	        CreateTransactionService service = new CreateTransactionService(repository);
+
+	        CreateTransactionCommand command = new CreateTransactionCommand(
+	                1L,
+	                100.0,
+	                "cars",
+	                null
+	        );
+
+	        service.createTransaction(command);
+
+	        Optional<Transaction> savedTransaction = repository.findById(1L);
+
+	        assertTrue(savedTransaction.isPresent());
+	        assertEquals(1L, savedTransaction.get().getId());
+	        assertEquals(100.0, savedTransaction.get().getAmount());
+	        assertEquals("cars", savedTransaction.get().getType());
+	        assertNull(savedTransaction.get().getParentId());
+	    }
+
+	    private static class InMemoryTransactionRepositoryFake implements TransactionRepository {
+
+	        private final List<Transaction> transactions = new ArrayList<>();
+
+	        @Override
+	        public void save(Transaction transaction) {
+	            transactions.add(transaction);
+	        }
+
+	        @Override
+	        public Optional<Transaction> findById(Long id) {
+	            return transactions.stream()
+	                    .filter(transaction -> transaction.getId().equals(id))
+	                    .findFirst();
+	        }
+
+	        @Override
+	        public List<Transaction> findByType(String type) {
+	            return transactions.stream()
+	                    .filter(transaction -> transaction.getType().equals(type))
+	                    .toList();
+	        }
+
+	        @Override
+	        public List<Transaction> findAll() {
+	            return List.copyOf(transactions);
+	        }
+	    }
+	}
+}
