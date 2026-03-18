@@ -36,4 +36,8 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     public List<Transaction> findAll() {
         return List.copyOf(transactionsById.values());
     }
+    
+    public void clear() {
+        transactionsById.clear();
+    }
 }

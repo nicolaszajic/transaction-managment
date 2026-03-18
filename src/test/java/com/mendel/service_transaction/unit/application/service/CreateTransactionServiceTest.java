@@ -1,4 +1,4 @@
-package com.mendel.service_transaction.application.service;
+package com.mendel.service_transaction.unit.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import com.mendel.service_transaction.application.model.CreateTransactionCommand;
 import com.mendel.service_transaction.application.port.TransactionRepository;
+import com.mendel.service_transaction.application.service.CreateTransactionService;
 import com.mendel.service_transaction.domain.model.Transaction;
 import com.mendel.service_transaction.domain.model.exception.ParentTransactionNotFoundException;
 import com.mendel.service_transaction.domain.model.exception.TransactionAlreadyExistsException;

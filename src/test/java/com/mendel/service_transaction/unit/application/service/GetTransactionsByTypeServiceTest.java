@@ -1,4 +1,4 @@
-package com.mendel.service_transaction.application.service;
+package com.mendel.service_transaction.unit.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import com.mendel.service_transaction.application.port.TransactionRepository;
+import com.mendel.service_transaction.application.service.GetTransactionsByTypeService;
 import com.mendel.service_transaction.domain.model.Transaction;
 
 class GetTransactionsByTypeServiceTest {
