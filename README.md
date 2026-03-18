@@ -21,11 +21,14 @@ This project implements a reactive REST API for managing transactions, built usi
 The application follows a **Hexagonal Architecture (Ports & Adapters)**:
 
 ```
-domain
-application (use cases)
-infrastructure
-  ├── entrypoint (controllers)
-  └── adapters (repository)
+src/main/java/com/mendel/service_transaction
+├── domain
+├── application
+└── infrastructure
+
+src/test/java/com/mendel/service_transaction
+├── unit
+└── integration
 ```
 
 ### Key principles
@@ -49,6 +52,66 @@ The contract is used to generate controllers and models via:
 
 ```
 openapi-generator-maven-plugin
+```
+---
+## Prerequisites
+
+Before running the project, make sure you have installed:
+
+```
+Java 17
+
+Maven 3.9+
+
+Docker
+
+Git
+```
+
+Optional but recommended:
+
+```
+Eclipse or IntelliJ IDEA
+
+Lombok plugin enabled in the IDE
+
+Annotation processing enabled in the IDE
+```
+---
+## Installation
+
+1. Clone the repository
+
+```
+git clone https://github.com/nicolaszajic/transaction-managment.git
+cd transaction-managment
+```
+2. Verify Java and Maven
+
+```
+java -version
+mvn -version
+```
+3. Generate OpenAPI sources and compile
+
+```
+mvn clean compile
+```
+
+This step:
+
+reads the OpenAPI contract
+
+generates controllers and models
+
+runs MapStruct/Lombok annotation processing
+
+compiles the project
+
+4. Run tests
+
+```
+mvn test
 ```
 
 ---
