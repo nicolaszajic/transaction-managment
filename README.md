@@ -64,7 +64,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=local
 Base URL:
 
 ```
-http://localhost:8080/service-transactions
+http://localhost:8080/
 ```
 
 ---

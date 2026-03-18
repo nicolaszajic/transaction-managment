@@ -3,21 +3,20 @@ package com.mendel.service_transaction.unit.application.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
 import com.mendel.service_transaction.application.port.TransactionRepository;
 import com.mendel.service_transaction.application.service.GetTransactionsByTypeService;
 import com.mendel.service_transaction.domain.model.Transaction;
+import com.mendel.service_transaction.unit.application.service.utils.InMemoryTransactionRepositoryMock;
 
 class GetTransactionsByTypeServiceTest {
 
 	@Test
 	void shouldReturnTransactionIdsByType() {
-		TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+		TransactionRepository repository = new InMemoryTransactionRepositoryMock();
 		GetTransactionsByTypeService service = new GetTransactionsByTypeService(repository);
 
 		repository.save(new Transaction(1L, new BigDecimal(100.0), "cars", null));
@@ -31,7 +30,7 @@ class GetTransactionsByTypeServiceTest {
 
 	@Test
 	void shouldReturnEmptyListWhenNoTransactionsMatchType() {
-		TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+		TransactionRepository repository = new InMemoryTransactionRepositoryMock();
 		GetTransactionsByTypeService service = new GetTransactionsByTypeService(repository);
 
 		repository.save(new Transaction(1L, new BigDecimal(100.0), "cars", null));
@@ -42,28 +41,5 @@ class GetTransactionsByTypeServiceTest {
 		assertEquals(List.of(), result);
 	}
 
-	private static class InMemoryTransactionRepositoryFake implements TransactionRepository {
-
-		private final List<Transaction> transactions = new ArrayList<>();
-
-		@Override
-		public void save(Transaction transaction) {
-			transactions.add(transaction);
-		}
-
-		@Override
-		public Optional<Transaction> findById(Long id) {
-			return transactions.stream().filter(transaction -> transaction.getId().equals(id)).findFirst();
-		}
-
-		@Override
-		public List<Transaction> findByType(String type) {
-			return transactions.stream().filter(transaction -> transaction.getType().equals(type)).toList();
-		}
-
-		@Override
-		public List<Transaction> findAll() {
-			return List.copyOf(transactions);
-		}
-	}
+	
 }

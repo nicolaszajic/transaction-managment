@@ -1,5 +1,6 @@
 package com.mendel.service_transaction.application.service;
 
+import com.mendel.service_transaction.domain.model.Transaction;
 import com.mendel.service_transaction.application.port.TransactionRepository;
 import com.mendel.service_transaction.application.usecase.GetTransactionsByTypeUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class GetTransactionsByTypeService implements GetTransactionsByTypeUseCas
     public List<Long> getByType(String type) {
         return transactionRepository.findByType(type)
                 .stream()
-                .map(transaction -> transaction.getId())
+                .map(Transaction::getId)
                 .toList();
     }
 }

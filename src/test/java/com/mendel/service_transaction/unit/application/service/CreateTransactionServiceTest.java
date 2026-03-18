@@ -18,11 +18,12 @@ import com.mendel.service_transaction.application.service.CreateTransactionServi
 import com.mendel.service_transaction.domain.model.Transaction;
 import com.mendel.service_transaction.domain.model.exception.ParentTransactionNotFoundException;
 import com.mendel.service_transaction.domain.model.exception.TransactionAlreadyExistsException;
+import com.mendel.service_transaction.unit.application.service.utils.InMemoryTransactionRepositoryMock;
 
 public class CreateTransactionServiceTest {
 	  @Test
 	    void shouldCreateTransactionSuccessfullyWhenParentIdIsNull() {
-	        TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+	        TransactionRepository repository = new InMemoryTransactionRepositoryMock();
 	        CreateTransactionService service = new CreateTransactionService(repository);
 
 	        CreateTransactionCommand command = new CreateTransactionCommand(
@@ -45,7 +46,7 @@ public class CreateTransactionServiceTest {
 	  
 		@Test
 		  void shouldThrowExceptionWhenTransactionAlreadyExists() {
-		      TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+		      TransactionRepository repository = new InMemoryTransactionRepositoryMock();
 		      CreateTransactionService service = new CreateTransactionService(repository);
 	
 
@@ -66,7 +67,7 @@ public class CreateTransactionServiceTest {
 		
 		@Test
 		  void shouldThrowExceptionWhenTransactionDoesNotExist() {
-		      TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+		      TransactionRepository repository = new InMemoryTransactionRepositoryMock();
 		      CreateTransactionService service = new CreateTransactionService(repository);
 	
 		      repository.save(new Transaction(1L, new BigDecimal(100.0), "cars", null));
@@ -86,7 +87,7 @@ public class CreateTransactionServiceTest {
 		
 		@Test
 		void shouldCreateTransactionWhenParentExists() {
-		    TransactionRepository repository = new InMemoryTransactionRepositoryFake();
+		    TransactionRepository repository = new InMemoryTransactionRepositoryMock();
 		    CreateTransactionService service = new CreateTransactionService(repository);
 
 		    repository.save(new Transaction(1L, new BigDecimal(100.0), "cars", null));
@@ -105,34 +106,5 @@ public class CreateTransactionServiceTest {
 		    assertTrue(savedTransaction.isPresent());
 		    assertEquals(1L, savedTransaction.get().getParentId());
 		}
-
-	    private static class InMemoryTransactionRepositoryFake implements TransactionRepository {
-
-	        private final List<Transaction> transactions = new ArrayList<>();
-
-	        @Override
-	        public void save(Transaction transaction) {
-	            transactions.add(transaction);
-	        }
-
-	        @Override
-	        public Optional<Transaction> findById(Long id) {
-	            return transactions.stream()
-	                    .filter(transaction -> transaction.getId().equals(id))
-	                    .findFirst();
-	        }
-
-	        @Override
-	        public List<Transaction> findByType(String type) {
-	            return transactions.stream()
-	                    .filter(transaction -> transaction.getType().equals(type))
-	                    .toList();
-	        }
-
-	        @Override
-	        public List<Transaction> findAll() {
-	            return List.copyOf(transactions);
-	        }
-	    }
 	}
 

@@ -9,5 +9,6 @@ public interface TransactionRepository {
 	void save(Transaction transaction);
 	Optional<Transaction> findById(Long id);
 	List<Transaction> findByType(String type);
+	List<Transaction> findChildrenByParentId(Long parentId);
 	List<Transaction> findAll();
 }

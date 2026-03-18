@@ -29,19 +29,18 @@ public class GetTransactionSumService implements GetTransactionsSumUseCase {
 											return new TransactionNotFoundException(transactionId);
 										});
 
-        BigDecimal result = sumTransactionTree(rootTransaction, transactionRepository.findAll());
+        BigDecimal result = sumTransactionTree(rootTransaction);
         log.info("Calculated sum for transactionId={} is {}", transactionId, result);
 
         return result;
 	}
 
-	private BigDecimal sumTransactionTree(Transaction root, List<Transaction> allTransactions) {
+	private BigDecimal sumTransactionTree(Transaction root) {
 		BigDecimal total = root.getAmount() != null ? root.getAmount() : BigDecimal.ZERO;
-
-		for (Transaction transaction : allTransactions) {
-			if (root.getId().equals(transaction.getParentId())) {
-				total = total.add(sumTransactionTree(transaction, allTransactions));
-			}
+		
+		List<Transaction> children = transactionRepository.findChildrenByParentId(root.getId());
+		for (Transaction child : children) {
+			total = total.add(sumTransactionTree(child));
 		}
 
 		return total;
