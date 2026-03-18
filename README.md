@@ -4,7 +4,7 @@ This project implements a reactive REST API for managing transactions, built usi
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 * Java 17
 * Spring Boot (WebFlux)
@@ -16,7 +16,7 @@ This project implements a reactive REST API for managing transactions, built usi
 
 ---
 
-## 🧱 Architecture
+## Architecture
 
 The application follows a **Hexagonal Architecture (Ports & Adapters)**:
 
@@ -37,7 +37,7 @@ infrastructure
 
 ---
 
-## 📄 API Contract
+## API Contract
 
 The API is defined using OpenAPI:
 
@@ -53,7 +53,7 @@ openapi-generator-maven-plugin
 
 ---
 
-## ⚙️ Running the application
+## Running the application
 
 ### Run locally
 
@@ -69,7 +69,7 @@ http://localhost:8080/
 
 ---
 
-## 🐳 Run with Docker
+## Run with Docker
 
 ### Build image
 
@@ -91,7 +91,7 @@ docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=local service-transaction
 
 ---
 
-## 🧪 Running tests
+## Running tests
 
 ```bash
 mvn test
@@ -105,7 +105,7 @@ Includes:
 
 ---
 
-## 📌 Endpoints
+## Endpoints
 
 ### Create Transaction
 
@@ -141,7 +141,7 @@ Returns the sum of all transactions connected by parent_id.
 
 ---
 
-## 🧠 Design Decisions
+## Design Decisions
 
 ### 1. Contract-first approach
 
@@ -182,13 +182,13 @@ Used instead of `double` to avoid precision issues in financial calculations.
 
 ---
 
-## ⚠️ Notes
+##  Notes
 
 * Data is stored in-memory (not persistent)
 * Application is stateless across restarts
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 Nicolas Zajic
