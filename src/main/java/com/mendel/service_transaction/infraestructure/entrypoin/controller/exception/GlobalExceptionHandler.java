@@ -4,11 +4,15 @@ import com.mendel.service_transaction.domain.model.exception.ParentTransactionNo
 import com.mendel.service_transaction.domain.model.exception.TransactionAlreadyExistsException;
 import com.mendel.service_transaction.domain.model.exception.TransactionNotFoundException;
 import com.mendel.service_transaction.infrastructure.entrypoint.controller.model.ErrorResponse;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -16,6 +20,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleTransactionAlreadyExists(
             TransactionAlreadyExistsException ex
     ) {
+    	log.warn("Conflict error: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse();
         error.setMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
@@ -25,6 +30,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleParentNotFound(
             ParentTransactionNotFoundException ex
     ) {
+    	log.warn("Bad request error: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse();
         error.setMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
@@ -34,6 +40,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleTransactionNotFound(
             TransactionNotFoundException ex
     ) {
+    	log.warn("Not found error: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse();
         error.setMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -41,6 +48,7 @@ public class GlobalExceptionHandler {
     
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
+    	log.error("Unhandled exception", ex);
         ErrorResponse error = new ErrorResponse();
         error.setMessage("Internal server error");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);

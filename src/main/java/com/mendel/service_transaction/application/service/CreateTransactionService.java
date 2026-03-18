@@ -12,7 +12,9 @@ import com.mendel.service_transaction.domain.model.exception.ParentTransactionNo
 import com.mendel.service_transaction.domain.model.exception.TransactionAlreadyExistsException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreateTransactionService implements CreateTransactionUseCase {
@@ -21,11 +23,15 @@ public class CreateTransactionService implements CreateTransactionUseCase {
 
 	@Override
 	public void createTransaction(CreateTransactionCommand command) {
+		log.info("Creating transaction with id={}, type={}, parentId={}",
+                command.id(), command.type(), command.parentId());
 		if (transactionRepository.findById(command.id()).isPresent()) {
+			log.warn("Transaction with id={} already exists", command.id());
 			throw new TransactionAlreadyExistsException(command.id());
 		}
 
 		if (command.parentId() != null && transactionRepository.findById(command.parentId()).isEmpty()) {
+			log.warn("Parent transaction with id={} not found", command.parentId());
 			throw new ParentTransactionNotFoundException(command.parentId());
 		}
 
@@ -37,5 +43,6 @@ public class CreateTransactionService implements CreateTransactionUseCase {
 									.build();
 
 		transactionRepository.save(transaction);
+		log.info("Transaction with id={} created successfully", command.id());
 	}
 }
